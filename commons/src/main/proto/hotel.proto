@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.hotel.grpc";
+
+package hotel;
+
+//messages
+
+message Empty {}
+
+// Address of the hotel
+message Address {
+  string country = 1;
+  string city = 2;
+  string street = 3;
+  string number = 4;
+  string locality = 5;
+  double latitude = 6;
+  double longitude = 7;
+}
+
+// Hotel information
+message HotelInfo {
+  int64 hotel_id = 1;
+  string name = 2;
+  Address address = 3;
+  int32 stars = 4;
+}
+
+// Agency credentials for authentication
+message AgencyCredentials {
+  string agency_id = 1;
+  string password = 2;
+}
+
+
+// service 1 : availability
+
+// Request to check room availability
+message AvailabilityRequest {
+  AgencyCredentials credentials = 1;
+  string start_date = 2;       // Format: YYYY-MM-DD
+  string end_date = 3;         // Format: YYYY-MM-DD
+  int32 number_of_guests = 4;
+}
+
+// A room offer returned by the hotel
+message RoomOffer {
+  int64 offer_id = 1;
+  string room_type = 2;
+  int32 number_of_beds = 3;
+  string availability_date = 4;
+  double price = 5;
+  bytes image = 6;
+}
+
+// Response with list of available offers
+message AvailabilityResponse {
+  HotelInfo hotel_info = 1;
+  repeated RoomOffer offers = 2;
+  string message = 3;          // Error message if any
+  bool success = 4;
+}
+
+
+//service 2 : reservation
+
+// Main guest information
+message GuestInfo {
+  string first_name = 1;
+  string last_name = 2;
+  string email = 3;
+  string phone = 4;
+}
+
+// Credit card information
+message CreditCardInfo {
+  string card_number = 1;
+  string card_holder_name = 2;
+  string expiry_date = 3;      // Format: MM/YY
+  string cvv = 4;
+}
+
+// Request to make a reservation
+message ReservationRequest {
+  AgencyCredentials credentials = 1;
+  int64 offer_id = 2;
+  GuestInfo main_guest = 3;
+  CreditCardInfo payment = 4;
+  string start_date = 5;
+  string end_date = 6;
+}
+
+// Response confirming or rejecting reservation
+message ReservationResponse {
+  bool confirmed = 1;
+  string reservation_reference = 2;
+  string message = 3;          // Message (success or error)
+  double total_price = 4;
+}
+
+
+// service definition
+
+service HotelService {
+  // Service web 1: Consulter les disponibilités
+  rpc CheckAvailability (AvailabilityRequest) returns (AvailabilityResponse);
+
+  // Service web 2: Effectuer une réservation
+  rpc MakeReservation (ReservationRequest) returns (ReservationResponse);
+
+  // Additional: Get hotel information
+  rpc GetHotelInfo (Empty) returns (HotelInfo);
+}
