@@ -1,67 +1,96 @@
 package com.example.hotelservice.model;
-
+import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.util.UUID;
+import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "reservations")
 public class Reservation {
-    private String referenceNumber;
-    private Long roomId;
-    private String agencyId;
-    private String guestFirstName;
-    private String guestLastName;
-    private String guestEmail;
-    private String guestPhone;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private double totalPrice;
-    private boolean confirmed;
-    
-    public Reservation() {
-        this.referenceNumber = generateReference();
-        this.confirmed = false;
-    }
-    
-    private String generateReference() {
-        return "RES-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
-    }
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @Column(nullable = false, unique = true)
+  private String reference;
+
+  @Column(nullable = false)
+  private LocalDate dateArrivee;
+
+  @Column(nullable = false)
+  private LocalDate dateDepart;
+
+  @Column(nullable = false)
+  private String nomClient;
+
+  @Column(nullable = false)
+  private String prenomClient;
+
+  private String emailClient;
+  private String telephoneClient;
+
+  @Column(nullable = false)
+  private double montantTotal;
+
+  @Column(nullable = false)
+  private String statut;
+
+  private String agenceId;
+
+  @Column(nullable = false)
+  private LocalDateTime dateReservation;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "chambre_id", nullable = false)
+  private Chambre chambre;
+
+  public Reservation() {
+    this.dateReservation = LocalDateTime.now();
+    this.statut = "CONFIRMEE";
+  }
+
+  // Génère une référence unique
+  public void genererReference() {
+    this.reference = "RES-" + System.currentTimeMillis() + "-" + (int)(Math.random() * 1000);
+  }
 
 
-    public String getReferenceNumber() { return referenceNumber; }
-    public void setReferenceNumber(String referenceNumber) { this.referenceNumber = referenceNumber; }
-    
-    public Long getRoomId() { return roomId; }
-    public void setRoomId(Long roomId) { this.roomId = roomId; }
-    
-    public String getAgencyId() { return agencyId; }
-    public void setAgencyId(String agencyId) { this.agencyId = agencyId; }
-    
-    public String getGuestFirstName() { return guestFirstName; }
-    public void setGuestFirstName(String guestFirstName) { this.guestFirstName = guestFirstName; }
-    
-    public String getGuestLastName() { return guestLastName; }
-    public void setGuestLastName(String guestLastName) { this.guestLastName = guestLastName; }
-    
-    public String getGuestEmail() { return guestEmail; }
-    public void setGuestEmail(String guestEmail) { this.guestEmail = guestEmail; }
-    
-    public String getGuestPhone() { return guestPhone; }
-    public void setGuestPhone(String guestPhone) { this.guestPhone = guestPhone; }
-    
-    public LocalDate getStartDate() { return startDate; }
-    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
-    
-    public LocalDate getEndDate() { return endDate; }
-    public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
-    
-    public double getTotalPrice() { return totalPrice; }
-    public void setTotalPrice(double totalPrice) { this.totalPrice = totalPrice; }
-    
-    public boolean isConfirmed() { return confirmed; }
-    public void setConfirmed(boolean confirmed) { this.confirmed = confirmed; }
-    
-    @Override
-    public String toString() {
-        return "Reservation{ref='" + referenceNumber + "', guest='" + guestFirstName + " " + guestLastName +
-               "', dates=" + startDate + " to " + endDate + ", price=" + totalPrice + ", confirmed=" + confirmed + "}";
-    }
+  public Long getId() { return id; }
+  public void setId(Long id) { this.id = id; }
+
+  public String getReference() { return reference; }
+  public void setReference(String reference) { this.reference = reference; }
+
+  public LocalDate getDateArrivee() { return dateArrivee; }
+  public void setDateArrivee(LocalDate dateArrivee) { this.dateArrivee = dateArrivee; }
+
+  public LocalDate getDateDepart() { return dateDepart; }
+  public void setDateDepart(LocalDate dateDepart) { this.dateDepart = dateDepart; }
+
+  public String getNomClient() { return nomClient; }
+  public void setNomClient(String nomClient) { this.nomClient = nomClient; }
+
+  public String getPrenomClient() { return prenomClient; }
+  public void setPrenomClient(String prenomClient) { this.prenomClient = prenomClient; }
+
+  public String getEmailClient() { return emailClient; }
+  public void setEmailClient(String emailClient) { this.emailClient = emailClient; }
+
+  public String getTelephoneClient() { return telephoneClient; }
+  public void setTelephoneClient(String telephoneClient) { this.telephoneClient = telephoneClient; }
+
+  public double getMontantTotal() { return montantTotal; }
+  public void setMontantTotal(double montantTotal) { this.montantTotal = montantTotal; }
+
+  public String getStatut() { return statut; }
+  public void setStatut(String statut) { this.statut = statut; }
+
+  public String getAgenceId() { return agenceId; }
+  public void setAgenceId(String agenceId) { this.agenceId = agenceId; }
+
+  public LocalDateTime getDateReservation() { return dateReservation; }
+  public void setDateReservation(LocalDateTime dateReservation) { this.dateReservation = dateReservation; }
+
+  public Chambre getChambre() { return chambre; }
+  public void setChambre(Chambre chambre) { this.chambre = chambre; }
 }

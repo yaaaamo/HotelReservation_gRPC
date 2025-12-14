@@ -62,8 +62,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.anonbnr.web_services.grpc</groupId>
-            <artifactId>org.anonbnr.web_services.grpc.employees.commons</artifactId>
+            <groupId>com.example</groupId>
+            <artifactId>commons</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
