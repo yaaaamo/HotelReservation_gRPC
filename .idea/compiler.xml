@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="agenceservice" />
+        <module name="commons" />
         <module name="hotelservice" />
       </profile>
     </annotationProcessing>
@@ -14,7 +15,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="agenceservice" options="-parameters" />
-      <module name="commons" options="-parameters" />
+      <module name="commons" options="" />
       <module name="hotelservice" options="-parameters" />
     </option>
   </component>
