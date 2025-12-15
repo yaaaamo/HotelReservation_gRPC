@@ -53,6 +53,8 @@ message RoomOffer {
   string availability_date = 4;
   double price = 5;
   bytes image = 6;
+  int32 quantity = 7;
+  double price_per_night = 8;
 }
 
 // Response with list of available offers

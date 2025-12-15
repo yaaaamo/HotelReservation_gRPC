@@ -1,4 +1,5 @@
 package com.example.agenceservice.controller;
+
 import com.example.agenceservice.services.HotelServiceClient;
 import org.hotel.grpc.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -6,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -24,18 +26,21 @@ public class AgenceController {
   public String index(Model model) {
     model.addAttribute("agencyName", agencyName);
     model.addAttribute("hotels", hotelServiceClient.getAvailableHotels());
+    model.addAttribute("onlineStatus", hotelServiceClient.getHotelsOnlineStatus());
     return "index";
   }
 
   @GetMapping("/hotels")
   public String hotels(Model model) {
     model.addAttribute("hotels", hotelServiceClient.getAllHotelInfos());
+    model.addAttribute("onlineStatus", hotelServiceClient.getHotelsOnlineStatus());
     return "hotels";
   }
 
   @GetMapping("/search")
   public String searchForm(Model model) {
     model.addAttribute("hotels", hotelServiceClient.getAvailableHotels());
+    model.addAttribute("onlineStatus", hotelServiceClient.getHotelsOnlineStatus());
     return "search";
   }
 
@@ -45,20 +50,22 @@ public class AgenceController {
           @RequestParam String endDate,
           @RequestParam int guests,
           @RequestParam(required = false) String hotelName,
+          @RequestParam(required = false, defaultValue = "0") double minPrice,
+          @RequestParam(required = false, defaultValue = "10000") double maxPrice,
           Model model) {
 
     model.addAttribute("startDate", startDate);
     model.addAttribute("endDate", endDate);
     model.addAttribute("guests", guests);
+    model.addAttribute("minPrice", minPrice);
+    model.addAttribute("maxPrice", maxPrice);
 
     if (hotelName != null && !hotelName.isEmpty()) {
-      // Single hotel search
       AvailabilityResponse response = hotelServiceClient.checkAvailability(
               hotelName, startDate, endDate, guests);
       model.addAttribute("singleResult", response);
       model.addAttribute("hotelName", hotelName);
     } else {
-      // All hotels search
       Map<String, AvailabilityResponse> results = hotelServiceClient.checkAvailabilityAllHotels(
               startDate, endDate, guests);
       model.addAttribute("results", results);
@@ -73,12 +80,16 @@ public class AgenceController {
           @PathVariable long offerId,
           @RequestParam String startDate,
           @RequestParam String endDate,
+          @RequestParam double price,
+          @RequestParam String roomType,
           Model model) {
 
     model.addAttribute("hotelName", hotelName);
     model.addAttribute("offerId", offerId);
     model.addAttribute("startDate", startDate);
     model.addAttribute("endDate", endDate);
+    model.addAttribute("price", price);
+    model.addAttribute("roomType", roomType);
     return "reserve";
   }
 

@@ -172,6 +172,28 @@ private static final long serialVersionUID = 0L;
     return image_;
   }
 
+  public static final int QUANTITY_FIELD_NUMBER = 7;
+  private int quantity_ = 0;
+  /**
+   * <code>int32 quantity = 7;</code>
+   * @return The quantity.
+   */
+  @java.lang.Override
+  public int getQuantity() {
+    return quantity_;
+  }
+
+  public static final int PRICE_PER_NIGHT_FIELD_NUMBER = 8;
+  private double pricePerNight_ = 0D;
+  /**
+   * <code>double price_per_night = 8;</code>
+   * @return The pricePerNight.
+   */
+  @java.lang.Override
+  public double getPricePerNight() {
+    return pricePerNight_;
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -204,6 +226,12 @@ private static final long serialVersionUID = 0L;
     if (!image_.isEmpty()) {
       output.writeBytes(6, image_);
     }
+    if (quantity_ != 0) {
+      output.writeInt32(7, quantity_);
+    }
+    if (java.lang.Double.doubleToRawLongBits(pricePerNight_) != 0) {
+      output.writeDouble(8, pricePerNight_);
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -235,6 +263,14 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeBytesSize(6, image_);
     }
+    if (quantity_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(7, quantity_);
+    }
+    if (java.lang.Double.doubleToRawLongBits(pricePerNight_) != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeDoubleSize(8, pricePerNight_);
+    }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
     return size;
@@ -263,6 +299,11 @@ private static final long serialVersionUID = 0L;
             other.getPrice())) return false;
     if (!getImage()
         .equals(other.getImage())) return false;
+    if (getQuantity()
+        != other.getQuantity()) return false;
+    if (java.lang.Double.doubleToLongBits(getPricePerNight())
+        != java.lang.Double.doubleToLongBits(
+            other.getPricePerNight())) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -288,6 +329,11 @@ private static final long serialVersionUID = 0L;
         java.lang.Double.doubleToLongBits(getPrice()));
     hash = (37 * hash) + IMAGE_FIELD_NUMBER;
     hash = (53 * hash) + getImage().hashCode();
+    hash = (37 * hash) + QUANTITY_FIELD_NUMBER;
+    hash = (53 * hash) + getQuantity();
+    hash = (37 * hash) + PRICE_PER_NIGHT_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        java.lang.Double.doubleToLongBits(getPricePerNight()));
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -427,6 +473,8 @@ private static final long serialVersionUID = 0L;
       availabilityDate_ = "";
       price_ = 0D;
       image_ = com.google.protobuf.ByteString.EMPTY;
+      quantity_ = 0;
+      pricePerNight_ = 0D;
       return this;
     }
 
@@ -477,6 +525,12 @@ private static final long serialVersionUID = 0L;
       }
       if (((from_bitField0_ & 0x00000020) != 0)) {
         result.image_ = image_;
+      }
+      if (((from_bitField0_ & 0x00000040) != 0)) {
+        result.quantity_ = quantity_;
+      }
+      if (((from_bitField0_ & 0x00000080) != 0)) {
+        result.pricePerNight_ = pricePerNight_;
       }
     }
 
@@ -546,6 +600,12 @@ private static final long serialVersionUID = 0L;
       if (other.getImage() != com.google.protobuf.ByteString.EMPTY) {
         setImage(other.getImage());
       }
+      if (other.getQuantity() != 0) {
+        setQuantity(other.getQuantity());
+      }
+      if (other.getPricePerNight() != 0D) {
+        setPricePerNight(other.getPricePerNight());
+      }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
       return this;
@@ -602,6 +662,16 @@ private static final long serialVersionUID = 0L;
               bitField0_ |= 0x00000020;
               break;
             } // case 50
+            case 56: {
+              quantity_ = input.readInt32();
+              bitField0_ |= 0x00000040;
+              break;
+            } // case 56
+            case 65: {
+              pricePerNight_ = input.readDouble();
+              bitField0_ |= 0x00000080;
+              break;
+            } // case 65
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -887,6 +957,70 @@ private static final long serialVersionUID = 0L;
     public Builder clearImage() {
       bitField0_ = (bitField0_ & ~0x00000020);
       image_ = getDefaultInstance().getImage();
+      onChanged();
+      return this;
+    }
+
+    private int quantity_ ;
+    /**
+     * <code>int32 quantity = 7;</code>
+     * @return The quantity.
+     */
+    @java.lang.Override
+    public int getQuantity() {
+      return quantity_;
+    }
+    /**
+     * <code>int32 quantity = 7;</code>
+     * @param value The quantity to set.
+     * @return This builder for chaining.
+     */
+    public Builder setQuantity(int value) {
+      
+      quantity_ = value;
+      bitField0_ |= 0x00000040;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>int32 quantity = 7;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearQuantity() {
+      bitField0_ = (bitField0_ & ~0x00000040);
+      quantity_ = 0;
+      onChanged();
+      return this;
+    }
+
+    private double pricePerNight_ ;
+    /**
+     * <code>double price_per_night = 8;</code>
+     * @return The pricePerNight.
+     */
+    @java.lang.Override
+    public double getPricePerNight() {
+      return pricePerNight_;
+    }
+    /**
+     * <code>double price_per_night = 8;</code>
+     * @param value The pricePerNight to set.
+     * @return This builder for chaining.
+     */
+    public Builder setPricePerNight(double value) {
+      
+      pricePerNight_ = value;
+      bitField0_ |= 0x00000080;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>double price_per_night = 8;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearPricePerNight() {
+      bitField0_ = (bitField0_ & ~0x00000080);
+      pricePerNight_ = 0D;
       onChanged();
       return this;
     }

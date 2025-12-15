@@ -11,6 +11,10 @@
         label { display: block; margin-top: 15px; }
         input, select { width: 100%; padding: 8px; margin-top: 5px; }
         button { margin-top: 20px; padding: 10px 20px; }
+        .price-range { display: flex; gap: 10px; }
+        .price-range input { width: 45%; }
+        .online { color: green; }
+        .offline { color: red; }
     </style>
 </head>
 <body>
@@ -34,10 +38,20 @@
         <input type="number" name="guests" min="1" max="10" value="2" required>
     </label>
 
-    <label>Hotel (vide = tous)
+    <label>Prix (EUR)
+        <div class="price-range">
+            <input type="number" name="minPrice" placeholder="Min" value="0" min="0">
+            <input type="number" name="maxPrice" placeholder="Max" value="1000" min="0">
+        </div>
+    </label>
+
+    <label>Hotel
         <select name="hotelName">
             <option value="">-- Tous les hotels --</option>
-            <option th:each="hotel : ${hotels}" th:value="${hotel}" th:text="${hotel}"></option>
+            <th:block th:each="hotel : ${hotels}">
+                <option th:if="${onlineStatus[hotel]}" th:value="${hotel}" th:text="${hotel} + ' (en ligne)'"></option>
+                <option th:unless="${onlineStatus[hotel]}" th:value="${hotel}" th:text="${hotel} + ' (hors ligne)'" disabled></option>
+            </th:block>
         </select>
     </label>
 

@@ -54,4 +54,16 @@ public interface RoomOfferOrBuilder extends
    * @return The image.
    */
   com.google.protobuf.ByteString getImage();
+
+  /**
+   * <code>int32 quantity = 7;</code>
+   * @return The quantity.
+   */
+  int getQuantity();
+
+  /**
+   * <code>double price_per_night = 8;</code>
+   * @return The pricePerNight.
+   */
+  double getPricePerNight();
 }

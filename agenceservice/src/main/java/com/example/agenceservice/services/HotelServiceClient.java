@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Client gRPC pour consommer les services de plusieurs hôtels.
+ * Les noms des méthodes correspondent aux noms définis dans le fichier .proto
  */
 @Service
 public class HotelServiceClient {
@@ -82,7 +83,7 @@ public class HotelServiceClient {
     }
   }
 
-
+  // ============= Utility Methods =============
 
   public List<String> getAvailableHotels() {
     return new ArrayList<>(hotelStubs.keySet());
@@ -90,6 +91,29 @@ public class HotelServiceClient {
 
   public int getHotelCount() {
     return hotelStubs.size();
+  }
+
+  /**
+   * Check if hotel is online/reachable
+   */
+  public boolean isHotelOnline(String hotelName) {
+    try {
+      getStub(hotelName).getHotelInfo(Empty.newBuilder().build());
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
+
+  /**
+   * Get online status for all hotels
+   */
+  public Map<String, Boolean> getHotelsOnlineStatus() {
+    Map<String, Boolean> status = new HashMap<>();
+    for (String hotelName : hotelStubs.keySet()) {
+      status.put(hotelName, isHotelOnline(hotelName));
+    }
+    return status;
   }
 
   private HotelServiceGrpc.HotelServiceBlockingStub getStub(String hotelName) {
@@ -107,7 +131,7 @@ public class HotelServiceClient {
             .build();
   }
 
-
+  // ============= gRPC Methods (same names as proto) =============
 
   /**
    * GetHotelInfo - Récupère les informations d'un hôtel
@@ -159,7 +183,7 @@ public class HotelServiceClient {
     return getStub(hotelName).makeReservation(request);
   }
 
-
+  // ============= Convenience Methods for All Hotels =============
 
   /**
    * GetHotelInfo pour tous les hôtels

@@ -10,7 +10,6 @@ import net.devh.boot.grpc.server.service.GrpcService;
 import org.hotel.grpc.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -42,9 +41,9 @@ public class HotelServiceImpl extends HotelServiceGrpc.HotelServiceImplBase {
     this.chambreRepository = chambreRepository;
   }
 
-
-  // Service 1: Consulter les disponibilités
-
+  /**
+   * Service 1: Consulter les disponibilités
+   */
   @Override
   public void checkAvailability(AvailabilityRequest request,
                                 StreamObserver<AvailabilityResponse> responseObserver) {
@@ -115,34 +114,39 @@ public class HotelServiceImpl extends HotelServiceGrpc.HotelServiceImplBase {
       for (AvailabilityWindow window : windows) {
         Chambre chambre = window.getChambre();
 
-        // Vérifier si la chambre peut accueillir le nombre de personnes
+        // Verifier si la chambre peut accueillir le nombre de personnes
         if (chambre.getNombreLits() < numberOfGuests) {
           continue;
         }
 
-        // Vérifier s'il reste de la disponibilité
+        // Verifier s'il reste de la disponibilite
         long existingReservations = reservationRepository.countOverlappingReservations(
                 chambre, startDate, endDate);
 
-        if (existingReservations >= window.getQuantity()) {
+        int availableQuantity = window.getQuantity() - (int) existingReservations;
+        if (availableQuantity <= 0) {
           continue;
         }
 
-        // Calculer le prix avec réduction agence
-        double pricePerNight = agence.calculerPrix(chambre.getPrixParNuit());
+        // Prix de base par nuit (sans reduction)
+        double basePricePerNight = chambre.getPrixParNuit();
+
+        // Calculer le prix avec reduction agence
+        double discountedPricePerNight = agence.calculerPrix(basePricePerNight);
         long nights = ChronoUnit.DAYS.between(startDate, endDate);
-        double totalPrice = pricePerNight * nights;
+        double totalPrice = discountedPricePerNight * nights;
 
         RoomOffer.Builder offerBuilder = RoomOffer.newBuilder()
                 .setOfferId(chambre.getId())
                 .setRoomType(chambre.getTypeChambre())
                 .setNumberOfBeds(chambre.getNombreLits())
                 .setAvailabilityDate(request.getStartDate())
-                .setPrice(totalPrice);
+                .setPrice(totalPrice)
+                .setQuantity(availableQuantity)
+                .setPricePerNight(basePricePerNight);
 
-        // Ajouter l'image
+        // Ajouter l'image si disponible
         if (chambre.getImageUrl() != null && !chambre.getImageUrl().isEmpty()) {
-          // Pour simplifier, on met l'URL en bytes
           offerBuilder.setImage(ByteString.copyFromUtf8(chambre.getImageUrl()));
         }
 
@@ -168,9 +172,9 @@ public class HotelServiceImpl extends HotelServiceGrpc.HotelServiceImplBase {
     responseObserver.onCompleted();
   }
 
-
-  // Service 2: Effectuer une réservation
-
+  /**
+   * Service 2: Effectuer une réservation
+   */
   @Override
   public void makeReservation(ReservationRequest request,
                               StreamObserver<ReservationResponse> responseObserver) {
@@ -309,8 +313,9 @@ public class HotelServiceImpl extends HotelServiceGrpc.HotelServiceImplBase {
     responseObserver.onCompleted();
   }
 
-  // Service supplémentaire: Obtenir les informations de l'hôtel
-
+  /**
+   * Service supplémentaire: Obtenir les informations de l'hôtel
+   */
   @Override
   public void getHotelInfo(Empty request, StreamObserver<HotelInfo> responseObserver) {
     logger.info("GetHotelInfo request received");
@@ -335,6 +340,10 @@ public class HotelServiceImpl extends HotelServiceGrpc.HotelServiceImplBase {
   }
 
 
+
+  /**
+   * Valide les credentials d'une agence
+   */
   private Agence validateAgency(AgencyCredentials credentials) {
     if (credentials == null || credentials.getAgencyId().isEmpty()) {
       return null;
@@ -345,9 +354,9 @@ public class HotelServiceImpl extends HotelServiceGrpc.HotelServiceImplBase {
             .orElse(null);
   }
 
-
-  // Construit un objet HotelInfo gRPC à partir d'un Hotel JPA
-
+  /**
+   * Construit un objet HotelInfo gRPC à partir d'un Hotel JPA
+   */
   private HotelInfo buildHotelInfo(Hotel hotel) {
     Address address = Address.newBuilder()
             .setCountry(hotel.getPays() != null ? hotel.getPays() : "")
