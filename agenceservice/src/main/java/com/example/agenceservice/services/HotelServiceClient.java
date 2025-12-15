@@ -3,6 +3,7 @@ package com.example.agenceservice.services;
 import com.example.agenceservice.config.HotelsConfig;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
@@ -37,6 +38,12 @@ public class HotelServiceClient {
 
   private final Map<String, HotelServiceGrpc.HotelServiceBlockingStub> hotelStubs = new HashMap<>();
   private final Map<String, ManagedChannel> channels = new HashMap<>();
+
+
+  private static final long INFO_TIMEOUT_SEC = 5;
+  private static final long AVAIL_TIMEOUT_SEC = 10;
+  private static final long RES_TIMEOUT_SEC = 30;
+  private static final long ONLINE_TIMEOUT_SEC = 2;
 
   public HotelServiceClient(HotelsConfig hotelsConfig) {
     this.hotelsConfig = hotelsConfig;
@@ -83,8 +90,6 @@ public class HotelServiceClient {
     }
   }
 
-  // ============= Utility Methods =============
-
   public List<String> getAvailableHotels() {
     return new ArrayList<>(hotelStubs.keySet());
   }
@@ -98,9 +103,13 @@ public class HotelServiceClient {
    */
   public boolean isHotelOnline(String hotelName) {
     try {
-      getStub(hotelName).getHotelInfo(Empty.newBuilder().build());
+      getStub(hotelName)
+              .withDeadlineAfter(ONLINE_TIMEOUT_SEC, TimeUnit.SECONDS)
+              .getHotelInfo(Empty.newBuilder().build());
       return true;
-    } catch (Exception e) {
+    } catch (StatusRuntimeException e) {
+      // optional: log only if you want visibility
+      logger.debug("Hotel {} is offline/unreachable: {}", hotelName, e.getStatus());
       return false;
     }
   }
@@ -131,14 +140,20 @@ public class HotelServiceClient {
             .build();
   }
 
-  // ============= gRPC Methods (same names as proto) =============
-
   /**
    * GetHotelInfo - Récupère les informations d'un hôtel
    */
   public HotelInfo getHotelInfo(String hotelName) {
     logger.info("getHotelInfo({})", hotelName);
-    return getStub(hotelName).getHotelInfo(Empty.newBuilder().build());
+
+    try {
+      return getStub(hotelName)
+              .withDeadlineAfter(INFO_TIMEOUT_SEC, TimeUnit.SECONDS)
+              .getHotelInfo(Empty.newBuilder().build());
+    } catch (StatusRuntimeException e) {
+      logger.warn("getHotelInfo failed (hotel={}): {}", hotelName, e.getStatus());
+      throw e;
+    }
   }
 
   /**
@@ -157,7 +172,14 @@ public class HotelServiceClient {
             .setNumberOfGuests(numberOfGuests)
             .build();
 
-    return getStub(hotelName).checkAvailability(request);
+    try {
+      return getStub(hotelName)
+              .withDeadlineAfter(AVAIL_TIMEOUT_SEC, TimeUnit.SECONDS)
+              .checkAvailability(request);
+    } catch (StatusRuntimeException e) {
+      logger.warn("checkAvailability failed (hotel={}): {}", hotelName, e.getStatus());
+      throw e;
+    }
   }
 
   /**
@@ -180,10 +202,15 @@ public class HotelServiceClient {
             .setEndDate(endDate)
             .build();
 
-    return getStub(hotelName).makeReservation(request);
+    try {
+      return getStub(hotelName)
+              .withDeadlineAfter(RES_TIMEOUT_SEC, TimeUnit.SECONDS)
+              .makeReservation(request);
+    } catch (StatusRuntimeException e) {
+      logger.warn("makeReservation failed (hotel={}, offerId={}): {}", hotelName, offerId, e.getStatus());
+      throw e;
+    }
   }
-
-  // ============= Convenience Methods for All Hotels =============
 
   /**
    * GetHotelInfo pour tous les hôtels
@@ -193,8 +220,10 @@ public class HotelServiceClient {
     for (String hotelName : hotelStubs.keySet()) {
       try {
         results.put(hotelName, getHotelInfo(hotelName));
+      } catch (StatusRuntimeException e) {
+        logger.warn("Could not get info for hotel={} (gRPC status={}): {}", hotelName, e.getStatus(), e.getMessage());
       } catch (Exception e) {
-        logger.warn("Could not get info for hotel: {}", hotelName);
+        logger.warn("Could not get info for hotel={} (error={}): {}", hotelName, e.getClass().getSimpleName(), e.getMessage());
       }
     }
     return results;
@@ -210,8 +239,12 @@ public class HotelServiceClient {
     for (String hotelName : hotelStubs.keySet()) {
       try {
         results.put(hotelName, checkAvailability(hotelName, startDate, endDate, numberOfGuests));
+      } catch (StatusRuntimeException e) {
+        Status.Code code = e.getStatus().getCode();
+
+        logger.warn("Could not check availability for hotel={} (gRPC code={}): {}", hotelName, code, e.getStatus());
       } catch (Exception e) {
-        logger.warn("Could not check availability for hotel: {}", hotelName);
+        logger.warn("Could not check availability for hotel={} (error={}): {}", hotelName, e.getClass().getSimpleName(), e.getMessage());
       }
     }
     return results;
