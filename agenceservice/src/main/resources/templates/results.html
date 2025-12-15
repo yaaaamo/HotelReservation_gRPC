@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultats</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        nav { margin-bottom: 30px; }
+        nav a { margin-right: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 30px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #f5f5f5; }
+        .hotel-name { font-weight: bold; margin: 20px 0 10px 0; }
+        .error { color: red; }
+        .success { color: green; }
+        a.button {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="/">Accueil</a>
+    <a href="/search">Nouvelle recherche</a>
+</nav>
+
+<h1>Resultats</h1>
+<p th:text="'Du ' + ${startDate} + ' au ' + ${endDate} + ' - ' + ${guests} + ' personne(s)'"></p>
+
+<!-- Single hotel result -->
+<div th:if="${singleResult != null}">
+    <p class="hotel-name" th:text="${hotelName}"></p>
+
+    <p th:if="${singleResult.success}" class="success" th:text="${singleResult.message}"></p>
+    <p th:unless="${singleResult.success}" class="error" th:text="${singleResult.message}"></p>
+
+    <table th:if="${singleResult.success and singleResult.offersCount > 0}">
+        <tr>
+            <th>Type</th>
+            <th>Lits</th>
+            <th>Prix</th>
+            <th>Action</th>
+        </tr>
+        <tr th:each="offer : ${singleResult.offersList}">
+            <td th:text="${offer.roomType}"></td>
+            <td th:text="${offer.numberOfBeds}"></td>
+            <td th:text="${#numbers.formatDecimal(offer.price, 1, 2)} + ' EUR'"></td>
+            <td>
+                <a class="button" th:href="@{/reserve/{hotel}/{id}(hotel=${hotelName}, id=${offer.offerId}, startDate=${startDate}, endDate=${endDate})}">Reserver</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<!-- All hotels results -->
+<div th:if="${results != null}">
+    <div th:each="entry : ${results}">
+        <p class="hotel-name" th:text="${entry.key}"></p>
+
+        <p th:if="${entry.value.success}" class="success" th:text="${entry.value.message}"></p>
+        <p th:unless="${entry.value.success}" class="error" th:text="${entry.value.message}"></p>
+
+        <table th:if="${entry.value.success and entry.value.offersCount > 0}">
+            <tr>
+                <th>Type</th>
+                <th>Lits</th>
+                <th>Prix</th>
+                <th>Action</th>
+            </tr>
+            <tr th:each="offer : ${entry.value.offersList}">
+                <td th:text="${offer.roomType}"></td>
+                <td th:text="${offer.numberOfBeds}"></td>
+                <td th:text="${#numbers.formatDecimal(offer.price, 1, 2)} + ' EUR'"></td>
+                <td>
+                    <a class="button" th:href="@{/reserve/{hotel}/{id}(hotel=${entry.key}, id=${offer.offerId}, startDate=${startDate}, endDate=${endDate})}">Reserver</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

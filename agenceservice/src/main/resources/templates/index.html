@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Agence</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        nav { margin-bottom: 30px; }
+        nav a { margin-right: 20px; }
+        h1 { margin-bottom: 20px; }
+        .info { color: #666; }
+    </style>
+</head>
+<body>
+<h1 th:text="${agencyName}">Agence</h1>
+
+<nav>
+    <a href="/hotels">Hotels</a>
+    <a href="/search">Rechercher</a>
+</nav>
+
+
+</body>
+</html>

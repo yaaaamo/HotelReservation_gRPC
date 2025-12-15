@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotels</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        nav { margin-bottom: 30px; }
+        nav a { margin-right: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #f5f5f5; }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="/">Accueil</a>
+    <a href="/search">Rechercher</a>
+</nav>
+
+<h1>Hotels</h1>
+
+<table>
+    <tr>
+        <th>Nom</th>
+        <th>Etoiles</th>
+        <th>Ville</th>
+        <th>Pays</th>
+        <th>Adresse</th>
+    </tr>
+    <tr th:each="entry : ${hotels}">
+        <td th:text="${entry.value.name}"></td>
+        <td th:text="${entry.value.stars} + ' *'"></td>
+        <td th:text="${entry.value.address.city}"></td>
+        <td th:text="${entry.value.address.country}"></td>
+        <td th:text="${entry.value.address.number + ' ' + entry.value.address.street}"></td>
+    </tr>
+</table>
+</body>
+</html>
