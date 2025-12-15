@@ -4,9 +4,11 @@ import com.example.hotelservice.model.*;
 import com.example.hotelservice.model.Hotel;
 import com.example.hotelservice.repository.*;
 import com.google.protobuf.ByteString;
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import jakarta.transaction.Transactional;
 import net.devh.boot.grpc.server.service.GrpcService;
+import com.example.hotelservice.auth.ServerAuthInterceptor;
 import org.hotel.grpc.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,20 +49,20 @@ public class HotelServiceImpl extends HotelServiceGrpc.HotelServiceImplBase {
   @Override
   public void checkAvailability(AvailabilityRequest request,
                                 StreamObserver<AvailabilityResponse> responseObserver) {
-    logger.info("CheckAvailability request received from agency: {}",
-            request.getCredentials().getAgencyId());
+
+    String agencyId = ServerAuthInterceptor.AGENCY_ID_CTX.get();
+    logger.info("CheckAvailability request received from agency (metadata): {}", agencyId);
+
 
     AvailabilityResponse.Builder responseBuilder = AvailabilityResponse.newBuilder();
 
     try {
       // 1. Vérifier les credentials de l'agence
-      Agence agence = validateAgency(request.getCredentials());
+      Agence agence = agenceRepository.findById(agencyId).orElse(null);
       if (agence == null) {
-        responseObserver.onNext(responseBuilder
-                .setSuccess(false)
-                .setMessage("Authentification échouée: identifiants invalides")
-                .build());
-        responseObserver.onCompleted();
+        responseObserver.onError(Status.UNAUTHENTICATED
+                .withDescription("Unknown agency")
+                .asRuntimeException());
         return;
       }
 
@@ -178,20 +180,21 @@ public class HotelServiceImpl extends HotelServiceGrpc.HotelServiceImplBase {
   @Override
   public void makeReservation(ReservationRequest request,
                               StreamObserver<ReservationResponse> responseObserver) {
-    logger.info("MakeReservation request received from agency: {}",
-            request.getCredentials().getAgencyId());
+
+    String agencyId = ServerAuthInterceptor.AGENCY_ID_CTX.get();
+    logger.info("MakeReservation request received from agency (metadata): {}", agencyId);
+
 
     ReservationResponse.Builder responseBuilder = ReservationResponse.newBuilder();
 
     try {
       // 1. Vérifier les credentials de l'agence
-      Agence agence = validateAgency(request.getCredentials());
+
+      Agence agence = agenceRepository.findById(agencyId).orElse(null);
       if (agence == null) {
-        responseObserver.onNext(responseBuilder
-                .setConfirmed(false)
-                .setMessage("Authentification échouée: identifiants invalides")
-                .build());
-        responseObserver.onCompleted();
+        responseObserver.onError(Status.UNAUTHENTICATED
+                .withDescription("Unknown agency")
+                .asRuntimeException());
         return;
       }
 
@@ -339,20 +342,6 @@ public class HotelServiceImpl extends HotelServiceGrpc.HotelServiceImplBase {
     responseObserver.onCompleted();
   }
 
-
-
-  /**
-   * Valide les credentials d'une agence
-   */
-  private Agence validateAgency(AgencyCredentials credentials) {
-    if (credentials == null || credentials.getAgencyId().isEmpty()) {
-      return null;
-    }
-
-    return agenceRepository.findById(credentials.getAgencyId())
-            .filter(a -> a.validateCredentials(credentials.getAgencyId(), credentials.getPassword()))
-            .orElse(null);
-  }
 
   /**
    * Construit un objet HotelInfo gRPC à partir d'un Hotel JPA

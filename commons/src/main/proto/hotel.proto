@@ -39,10 +39,10 @@ message AgencyCredentials {
 
 // Request to check room availability
 message AvailabilityRequest {
-  AgencyCredentials credentials = 1;
-  string start_date = 2;       // Format: YYYY-MM-DD
-  string end_date = 3;         // Format: YYYY-MM-DD
-  int32 number_of_guests = 4;
+
+  string start_date = 1;       // Format: YYYY-MM-DD
+  string end_date = 2;         // Format: YYYY-MM-DD
+  int32 number_of_guests = 3;
 }
 
 // A room offer returned by the hotel
@@ -86,12 +86,12 @@ message CreditCardInfo {
 
 // Request to make a reservation
 message ReservationRequest {
-  AgencyCredentials credentials = 1;
-  int64 offer_id = 2;
-  GuestInfo main_guest = 3;
-  CreditCardInfo payment = 4;
-  string start_date = 5;
-  string end_date = 6;
+
+  int64 offer_id = 1;
+  GuestInfo main_guest = 2;
+  CreditCardInfo payment = 3;
+  string start_date = 4;
+  string end_date = 5;
 }
 
 // Response confirming or rejecting reservation

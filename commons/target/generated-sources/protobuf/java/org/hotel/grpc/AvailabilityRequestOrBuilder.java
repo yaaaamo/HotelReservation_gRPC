@@ -8,26 +8,11 @@ public interface AvailabilityRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>.hotel.AgencyCredentials credentials = 1;</code>
-   * @return Whether the credentials field is set.
-   */
-  boolean hasCredentials();
-  /**
-   * <code>.hotel.AgencyCredentials credentials = 1;</code>
-   * @return The credentials.
-   */
-  org.hotel.grpc.AgencyCredentials getCredentials();
-  /**
-   * <code>.hotel.AgencyCredentials credentials = 1;</code>
-   */
-  org.hotel.grpc.AgencyCredentialsOrBuilder getCredentialsOrBuilder();
-
-  /**
    * <pre>
    * Format: YYYY-MM-DD
    * </pre>
    *
-   * <code>string start_date = 2;</code>
+   * <code>string start_date = 1;</code>
    * @return The startDate.
    */
   java.lang.String getStartDate();
@@ -36,7 +21,7 @@ public interface AvailabilityRequestOrBuilder extends
    * Format: YYYY-MM-DD
    * </pre>
    *
-   * <code>string start_date = 2;</code>
+   * <code>string start_date = 1;</code>
    * @return The bytes for startDate.
    */
   com.google.protobuf.ByteString
@@ -47,7 +32,7 @@ public interface AvailabilityRequestOrBuilder extends
    * Format: YYYY-MM-DD
    * </pre>
    *
-   * <code>string end_date = 3;</code>
+   * <code>string end_date = 2;</code>
    * @return The endDate.
    */
   java.lang.String getEndDate();
@@ -56,14 +41,14 @@ public interface AvailabilityRequestOrBuilder extends
    * Format: YYYY-MM-DD
    * </pre>
    *
-   * <code>string end_date = 3;</code>
+   * <code>string end_date = 2;</code>
    * @return The bytes for endDate.
    */
   com.google.protobuf.ByteString
       getEndDateBytes();
 
   /**
-   * <code>int32 number_of_guests = 4;</code>
+   * <code>int32 number_of_guests = 3;</code>
    * @return The numberOfGuests.
    */
   int getNumberOfGuests();

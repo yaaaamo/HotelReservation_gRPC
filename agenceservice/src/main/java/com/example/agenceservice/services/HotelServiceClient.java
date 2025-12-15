@@ -1,5 +1,6 @@
 package com.example.agenceservice.services;
 
+import com.example.agenceservice.auth.AuthInterceptor;
 import com.example.agenceservice.config.HotelsConfig;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -39,7 +40,6 @@ public class HotelServiceClient {
   private final Map<String, HotelServiceGrpc.HotelServiceBlockingStub> hotelStubs = new HashMap<>();
   private final Map<String, ManagedChannel> channels = new HashMap<>();
 
-
   private static final long INFO_TIMEOUT_SEC = 5;
   private static final long AVAIL_TIMEOUT_SEC = 10;
   private static final long RES_TIMEOUT_SEC = 30;
@@ -64,6 +64,7 @@ public class HotelServiceClient {
         ManagedChannel channel = ManagedChannelBuilder
                 .forAddress(host, port)
                 .usePlaintext()
+                .intercept(new AuthInterceptor(agencyId, agencyPassword))
                 .build();
 
         HotelServiceGrpc.HotelServiceBlockingStub stub = HotelServiceGrpc.newBlockingStub(channel);
@@ -99,28 +100,12 @@ public class HotelServiceClient {
   }
 
   /**
-   * Check if hotel is online/reachable
-   */
-  public boolean isHotelOnline(String hotelName) {
-    try {
-      getStub(hotelName)
-              .withDeadlineAfter(ONLINE_TIMEOUT_SEC, TimeUnit.SECONDS)
-              .getHotelInfo(Empty.newBuilder().build());
-      return true;
-    } catch (StatusRuntimeException e) {
-      // optional: log only if you want visibility
-      logger.debug("Hotel {} is offline/unreachable: {}", hotelName, e.getStatus());
-      return false;
-    }
-  }
-
-  /**
    * Get online status for all hotels
    */
-  public Map<String, Boolean> getHotelsOnlineStatus() {
-    Map<String, Boolean> status = new HashMap<>();
+  public Map<String, HotelStatus> getHotelsOnlineStatus() {
+    Map<String, HotelStatus> status = new HashMap<>();
     for (String hotelName : hotelStubs.keySet()) {
-      status.put(hotelName, isHotelOnline(hotelName));
+      status.put(hotelName, getHotelStatus(hotelName));
     }
     return status;
   }
@@ -151,7 +136,12 @@ public class HotelServiceClient {
               .withDeadlineAfter(INFO_TIMEOUT_SEC, TimeUnit.SECONDS)
               .getHotelInfo(Empty.newBuilder().build());
     } catch (StatusRuntimeException e) {
-      logger.warn("getHotelInfo failed (hotel={}): {}", hotelName, e.getStatus());
+      Status.Code code = e.getStatus().getCode();
+      String desc = e.getStatus().getDescription();
+
+
+      logger.debug("getHotelInfo failed (hotel={} code={} desc={})", hotelName, code, desc);
+
       throw e;
     }
   }
@@ -166,7 +156,6 @@ public class HotelServiceClient {
     logger.info("checkAvailability({}, {}, {}, {})", hotelName, startDate, endDate, numberOfGuests);
 
     AvailabilityRequest request = AvailabilityRequest.newBuilder()
-            .setCredentials(getCredentials())
             .setStartDate(startDate)
             .setEndDate(endDate)
             .setNumberOfGuests(numberOfGuests)
@@ -177,7 +166,9 @@ public class HotelServiceClient {
               .withDeadlineAfter(AVAIL_TIMEOUT_SEC, TimeUnit.SECONDS)
               .checkAvailability(request);
     } catch (StatusRuntimeException e) {
-      logger.warn("checkAvailability failed (hotel={}): {}", hotelName, e.getStatus());
+
+      logger.debug("checkAvailability failed (hotel={} code={} desc={})",
+              hotelName, e.getStatus().getCode(), e.getStatus().getDescription());
       throw e;
     }
   }
@@ -194,7 +185,6 @@ public class HotelServiceClient {
     logger.info("makeReservation({}, offerId={})", hotelName, offerId);
 
     ReservationRequest request = ReservationRequest.newBuilder()
-            .setCredentials(getCredentials())
             .setOfferId(offerId)
             .setMainGuest(guestInfo)
             .setPayment(paymentInfo)
@@ -207,7 +197,9 @@ public class HotelServiceClient {
               .withDeadlineAfter(RES_TIMEOUT_SEC, TimeUnit.SECONDS)
               .makeReservation(request);
     } catch (StatusRuntimeException e) {
-      logger.warn("makeReservation failed (hotel={}, offerId={}): {}", hotelName, offerId, e.getStatus());
+
+      logger.debug("makeReservation failed (hotel={} offerId={} code={} desc={})",
+              hotelName, offerId, e.getStatus().getCode(), e.getStatus().getDescription());
       throw e;
     }
   }
@@ -217,16 +209,39 @@ public class HotelServiceClient {
    */
   public Map<String, HotelInfo> getAllHotelInfos() {
     Map<String, HotelInfo> results = new HashMap<>();
+
     for (String hotelName : hotelStubs.keySet()) {
       try {
         results.put(hotelName, getHotelInfo(hotelName));
+
       } catch (StatusRuntimeException e) {
-        logger.warn("Could not get info for hotel={} (gRPC status={}): {}", hotelName, e.getStatus(), e.getMessage());
+
+        logger.debug("Could not get info for hotel={} (code={} desc={})",
+                hotelName, e.getStatus().getCode(), e.getStatus().getDescription());
+        results.put(hotelName, buildPlaceholderHotelInfo(hotelName));
+
       } catch (Exception e) {
-        logger.warn("Could not get info for hotel={} (error={}): {}", hotelName, e.getClass().getSimpleName(), e.getMessage());
+        logger.debug("Could not get info for hotel={} (error={}): {}",
+                hotelName, e.getClass().getSimpleName(), e.getMessage());
+        results.put(hotelName, buildPlaceholderHotelInfo(hotelName));
       }
     }
+
     return results;
+  }
+
+  private HotelInfo buildPlaceholderHotelInfo(String hotelName) {
+    return HotelInfo.newBuilder()
+            .setHotelId(-1)
+            .setName(hotelName)
+            .setStars(0)
+            .setAddress(Address.newBuilder()
+                    .setCity("")
+                    .setCountry("")
+                    .setStreet("")
+                    .setNumber("")
+                    .build())
+            .build();
   }
 
   /**
@@ -242,11 +257,57 @@ public class HotelServiceClient {
       } catch (StatusRuntimeException e) {
         Status.Code code = e.getStatus().getCode();
 
-        logger.warn("Could not check availability for hotel={} (gRPC code={}): {}", hotelName, code, e.getStatus());
+        logger.debug("Could not check availability for hotel={} (code={} desc={})",
+                hotelName, code, e.getStatus().getDescription());
       } catch (Exception e) {
-        logger.warn("Could not check availability for hotel={} (error={}): {}", hotelName, e.getClass().getSimpleName(), e.getMessage());
+        logger.debug("Could not check availability for hotel={} (error={}): {}",
+                hotelName, e.getClass().getSimpleName(), e.getMessage());
       }
     }
     return results;
+  }
+
+  public HotelStatus getHotelStatus(String hotelName) {
+    try {
+      getStub(hotelName)
+              .withDeadlineAfter(ONLINE_TIMEOUT_SEC, TimeUnit.SECONDS)
+              .getHotelInfo(Empty.newBuilder().build());
+      return HotelStatus.ONLINE;
+
+    } catch (StatusRuntimeException e) {
+      Status.Code code = e.getStatus().getCode();
+
+      return switch (code) {
+        case UNAUTHENTICATED -> HotelStatus.AUTH_FAILED;
+        case UNAVAILABLE -> HotelStatus.OFFLINE;
+        case DEADLINE_EXCEEDED -> HotelStatus.TIMEOUT;
+        default -> HotelStatus.ERROR;
+      };
+    }
+  }
+
+  public Map<String, String> getHotelWarnings() {
+    Map<String, String> warnings = new HashMap<>();
+
+    for (String hotelName : hotelStubs.keySet()) {
+      try {
+        getStub(hotelName)
+                .withDeadlineAfter(ONLINE_TIMEOUT_SEC, TimeUnit.SECONDS)
+                .getHotelInfo(Empty.newBuilder().build());
+      } catch (StatusRuntimeException e) {
+        Status.Code code = e.getStatus().getCode();
+
+        if (code == Status.Code.UNAVAILABLE) {
+          warnings.put(hotelName, "Hotel unreachable (offline)");
+        } else if (code == Status.Code.DEADLINE_EXCEEDED) {
+          warnings.put(hotelName, "Hotel timeout");
+        } else if (code == Status.Code.UNAUTHENTICATED) {
+          warnings.put(hotelName, "Authentication failed");
+        } else {
+          warnings.put(hotelName, "Hotel error: " + code);
+        }
+      }
+    }
+    return warnings;
   }
 }

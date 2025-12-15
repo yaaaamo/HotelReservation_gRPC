@@ -45,15 +45,6 @@
         </div>
     </label>
 
-    <label>Hotel
-        <select name="hotelName">
-            <option value="">-- Tous les hotels --</option>
-            <th:block th:each="hotel : ${hotels}">
-                <option th:if="${onlineStatus[hotel]}" th:value="${hotel}" th:text="${hotel} + ' (en ligne)'"></option>
-                <option th:unless="${onlineStatus[hotel]}" th:value="${hotel}" th:text="${hotel} + ' (hors ligne)'" disabled></option>
-            </th:block>
-        </select>
-    </label>
 
     <button type="submit">Rechercher</button>
 </form>

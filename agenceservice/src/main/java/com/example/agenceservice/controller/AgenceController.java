@@ -26,7 +26,6 @@ public class AgenceController {
   public String index(Model model) {
     model.addAttribute("agencyName", agencyName);
     model.addAttribute("hotels", hotelServiceClient.getAvailableHotels());
-    model.addAttribute("onlineStatus", hotelServiceClient.getHotelsOnlineStatus());
     return "index";
   }
 
@@ -34,13 +33,13 @@ public class AgenceController {
   public String hotels(Model model) {
     model.addAttribute("hotels", hotelServiceClient.getAllHotelInfos());
     model.addAttribute("onlineStatus", hotelServiceClient.getHotelsOnlineStatus());
+    model.addAttribute("hotelWarnings", hotelServiceClient.getHotelWarnings());
     return "hotels";
   }
 
   @GetMapping("/search")
   public String searchForm(Model model) {
     model.addAttribute("hotels", hotelServiceClient.getAvailableHotels());
-    model.addAttribute("onlineStatus", hotelServiceClient.getHotelsOnlineStatus());
     return "search";
   }
 
@@ -60,19 +59,36 @@ public class AgenceController {
     model.addAttribute("minPrice", minPrice);
     model.addAttribute("maxPrice", maxPrice);
 
+    model.addAttribute("hotelWarnings", hotelServiceClient.getHotelWarnings());
+
     if (hotelName != null && !hotelName.isEmpty()) {
       AvailabilityResponse response = hotelServiceClient.checkAvailability(
               hotelName, startDate, endDate, guests);
+
       model.addAttribute("singleResult", response);
       model.addAttribute("hotelName", hotelName);
+
+
+      if (!response.getSuccess()) {
+        model.addAttribute("errorMessage", response.getMessage());
+      }
+
     } else {
       Map<String, AvailabilityResponse> results = hotelServiceClient.checkAvailabilityAllHotels(
               startDate, endDate, guests);
+
       model.addAttribute("results", results);
+
+
+      boolean hasAnySuccess = results.values().stream().anyMatch(AvailabilityResponse::getSuccess);
+      if (!hasAnySuccess) {
+        model.addAttribute("errorMessage", "Aucune disponibilité trouvée pour ces dates.");
+      }
     }
 
     return "results";
   }
+
 
   @GetMapping("/reserve/{hotelName}/{offerId}")
   public String reserveForm(

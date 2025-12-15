@@ -8,75 +8,60 @@ public interface ReservationRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>.hotel.AgencyCredentials credentials = 1;</code>
-   * @return Whether the credentials field is set.
-   */
-  boolean hasCredentials();
-  /**
-   * <code>.hotel.AgencyCredentials credentials = 1;</code>
-   * @return The credentials.
-   */
-  org.hotel.grpc.AgencyCredentials getCredentials();
-  /**
-   * <code>.hotel.AgencyCredentials credentials = 1;</code>
-   */
-  org.hotel.grpc.AgencyCredentialsOrBuilder getCredentialsOrBuilder();
-
-  /**
-   * <code>int64 offer_id = 2;</code>
+   * <code>int64 offer_id = 1;</code>
    * @return The offerId.
    */
   long getOfferId();
 
   /**
-   * <code>.hotel.GuestInfo main_guest = 3;</code>
+   * <code>.hotel.GuestInfo main_guest = 2;</code>
    * @return Whether the mainGuest field is set.
    */
   boolean hasMainGuest();
   /**
-   * <code>.hotel.GuestInfo main_guest = 3;</code>
+   * <code>.hotel.GuestInfo main_guest = 2;</code>
    * @return The mainGuest.
    */
   org.hotel.grpc.GuestInfo getMainGuest();
   /**
-   * <code>.hotel.GuestInfo main_guest = 3;</code>
+   * <code>.hotel.GuestInfo main_guest = 2;</code>
    */
   org.hotel.grpc.GuestInfoOrBuilder getMainGuestOrBuilder();
 
   /**
-   * <code>.hotel.CreditCardInfo payment = 4;</code>
+   * <code>.hotel.CreditCardInfo payment = 3;</code>
    * @return Whether the payment field is set.
    */
   boolean hasPayment();
   /**
-   * <code>.hotel.CreditCardInfo payment = 4;</code>
+   * <code>.hotel.CreditCardInfo payment = 3;</code>
    * @return The payment.
    */
   org.hotel.grpc.CreditCardInfo getPayment();
   /**
-   * <code>.hotel.CreditCardInfo payment = 4;</code>
+   * <code>.hotel.CreditCardInfo payment = 3;</code>
    */
   org.hotel.grpc.CreditCardInfoOrBuilder getPaymentOrBuilder();
 
   /**
-   * <code>string start_date = 5;</code>
+   * <code>string start_date = 4;</code>
    * @return The startDate.
    */
   java.lang.String getStartDate();
   /**
-   * <code>string start_date = 5;</code>
+   * <code>string start_date = 4;</code>
    * @return The bytes for startDate.
    */
   com.google.protobuf.ByteString
       getStartDateBytes();
 
   /**
-   * <code>string end_date = 6;</code>
+   * <code>string end_date = 5;</code>
    * @return The endDate.
    */
   java.lang.String getEndDate();
   /**
-   * <code>string end_date = 6;</code>
+   * <code>string end_date = 5;</code>
    * @return The bytes for endDate.
    */
   com.google.protobuf.ByteString

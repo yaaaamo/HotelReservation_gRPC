@@ -32,6 +32,11 @@
 </nav>
 
 <h1>Resultats</h1>
+<div th:if="${errorMessage != null}"
+     style="background:#ffe6e6;color:#900;padding:10px;margin-bottom:15px;border:1px solid #d00;">
+     <span th:text="${errorMessage}"></span>
+</div>
+
 <p th:text="'Du ' + ${startDate} + ' au ' + ${endDate} + ' - ' + ${guests} + ' personne(s)'"></p>
 <p th:text="'Prix: ' + ${minPrice} + ' - ' + ${maxPrice} + ' EUR'"></p>
 

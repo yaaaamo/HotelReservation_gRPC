@@ -49,33 +49,7 @@ private static final long serialVersionUID = 0L;
             org.hotel.grpc.AvailabilityRequest.class, org.hotel.grpc.AvailabilityRequest.Builder.class);
   }
 
-  public static final int CREDENTIALS_FIELD_NUMBER = 1;
-  private org.hotel.grpc.AgencyCredentials credentials_;
-  /**
-   * <code>.hotel.AgencyCredentials credentials = 1;</code>
-   * @return Whether the credentials field is set.
-   */
-  @java.lang.Override
-  public boolean hasCredentials() {
-    return credentials_ != null;
-  }
-  /**
-   * <code>.hotel.AgencyCredentials credentials = 1;</code>
-   * @return The credentials.
-   */
-  @java.lang.Override
-  public org.hotel.grpc.AgencyCredentials getCredentials() {
-    return credentials_ == null ? org.hotel.grpc.AgencyCredentials.getDefaultInstance() : credentials_;
-  }
-  /**
-   * <code>.hotel.AgencyCredentials credentials = 1;</code>
-   */
-  @java.lang.Override
-  public org.hotel.grpc.AgencyCredentialsOrBuilder getCredentialsOrBuilder() {
-    return credentials_ == null ? org.hotel.grpc.AgencyCredentials.getDefaultInstance() : credentials_;
-  }
-
-  public static final int START_DATE_FIELD_NUMBER = 2;
+  public static final int START_DATE_FIELD_NUMBER = 1;
   @SuppressWarnings("serial")
   private volatile java.lang.Object startDate_ = "";
   /**
@@ -83,7 +57,7 @@ private static final long serialVersionUID = 0L;
    * Format: YYYY-MM-DD
    * </pre>
    *
-   * <code>string start_date = 2;</code>
+   * <code>string start_date = 1;</code>
    * @return The startDate.
    */
   @java.lang.Override
@@ -104,7 +78,7 @@ private static final long serialVersionUID = 0L;
    * Format: YYYY-MM-DD
    * </pre>
    *
-   * <code>string start_date = 2;</code>
+   * <code>string start_date = 1;</code>
    * @return The bytes for startDate.
    */
   @java.lang.Override
@@ -122,7 +96,7 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int END_DATE_FIELD_NUMBER = 3;
+  public static final int END_DATE_FIELD_NUMBER = 2;
   @SuppressWarnings("serial")
   private volatile java.lang.Object endDate_ = "";
   /**
@@ -130,7 +104,7 @@ private static final long serialVersionUID = 0L;
    * Format: YYYY-MM-DD
    * </pre>
    *
-   * <code>string end_date = 3;</code>
+   * <code>string end_date = 2;</code>
    * @return The endDate.
    */
   @java.lang.Override
@@ -151,7 +125,7 @@ private static final long serialVersionUID = 0L;
    * Format: YYYY-MM-DD
    * </pre>
    *
-   * <code>string end_date = 3;</code>
+   * <code>string end_date = 2;</code>
    * @return The bytes for endDate.
    */
   @java.lang.Override
@@ -169,10 +143,10 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int NUMBER_OF_GUESTS_FIELD_NUMBER = 4;
+  public static final int NUMBER_OF_GUESTS_FIELD_NUMBER = 3;
   private int numberOfGuests_ = 0;
   /**
-   * <code>int32 number_of_guests = 4;</code>
+   * <code>int32 number_of_guests = 3;</code>
    * @return The numberOfGuests.
    */
   @java.lang.Override
@@ -194,17 +168,14 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (credentials_ != null) {
-      output.writeMessage(1, getCredentials());
-    }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(startDate_)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, startDate_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, startDate_);
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(endDate_)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, endDate_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, endDate_);
     }
     if (numberOfGuests_ != 0) {
-      output.writeInt32(4, numberOfGuests_);
+      output.writeInt32(3, numberOfGuests_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -215,19 +186,15 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (credentials_ != null) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(1, getCredentials());
-    }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(startDate_)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, startDate_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, startDate_);
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(endDate_)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, endDate_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, endDate_);
     }
     if (numberOfGuests_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(4, numberOfGuests_);
+        .computeInt32Size(3, numberOfGuests_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -244,11 +211,6 @@ private static final long serialVersionUID = 0L;
     }
     org.hotel.grpc.AvailabilityRequest other = (org.hotel.grpc.AvailabilityRequest) obj;
 
-    if (hasCredentials() != other.hasCredentials()) return false;
-    if (hasCredentials()) {
-      if (!getCredentials()
-          .equals(other.getCredentials())) return false;
-    }
     if (!getStartDate()
         .equals(other.getStartDate())) return false;
     if (!getEndDate()
@@ -266,10 +228,6 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    if (hasCredentials()) {
-      hash = (37 * hash) + CREDENTIALS_FIELD_NUMBER;
-      hash = (53 * hash) + getCredentials().hashCode();
-    }
     hash = (37 * hash) + START_DATE_FIELD_NUMBER;
     hash = (53 * hash) + getStartDate().hashCode();
     hash = (37 * hash) + END_DATE_FIELD_NUMBER;
@@ -409,11 +367,6 @@ private static final long serialVersionUID = 0L;
     public Builder clear() {
       super.clear();
       bitField0_ = 0;
-      credentials_ = null;
-      if (credentialsBuilder_ != null) {
-        credentialsBuilder_.dispose();
-        credentialsBuilder_ = null;
-      }
       startDate_ = "";
       endDate_ = "";
       numberOfGuests_ = 0;
@@ -451,17 +404,12 @@ private static final long serialVersionUID = 0L;
     private void buildPartial0(org.hotel.grpc.AvailabilityRequest result) {
       int from_bitField0_ = bitField0_;
       if (((from_bitField0_ & 0x00000001) != 0)) {
-        result.credentials_ = credentialsBuilder_ == null
-            ? credentials_
-            : credentialsBuilder_.build();
-      }
-      if (((from_bitField0_ & 0x00000002) != 0)) {
         result.startDate_ = startDate_;
       }
-      if (((from_bitField0_ & 0x00000004) != 0)) {
+      if (((from_bitField0_ & 0x00000002) != 0)) {
         result.endDate_ = endDate_;
       }
-      if (((from_bitField0_ & 0x00000008) != 0)) {
+      if (((from_bitField0_ & 0x00000004) != 0)) {
         result.numberOfGuests_ = numberOfGuests_;
       }
     }
@@ -510,17 +458,14 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(org.hotel.grpc.AvailabilityRequest other) {
       if (other == org.hotel.grpc.AvailabilityRequest.getDefaultInstance()) return this;
-      if (other.hasCredentials()) {
-        mergeCredentials(other.getCredentials());
-      }
       if (!other.getStartDate().isEmpty()) {
         startDate_ = other.startDate_;
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000001;
         onChanged();
       }
       if (!other.getEndDate().isEmpty()) {
         endDate_ = other.endDate_;
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000002;
         onChanged();
       }
       if (other.getNumberOfGuests() != 0) {
@@ -553,27 +498,20 @@ private static final long serialVersionUID = 0L;
               done = true;
               break;
             case 10: {
-              input.readMessage(
-                  getCredentialsFieldBuilder().getBuilder(),
-                  extensionRegistry);
+              startDate_ = input.readStringRequireUtf8();
               bitField0_ |= 0x00000001;
               break;
             } // case 10
             case 18: {
-              startDate_ = input.readStringRequireUtf8();
+              endDate_ = input.readStringRequireUtf8();
               bitField0_ |= 0x00000002;
               break;
             } // case 18
-            case 26: {
-              endDate_ = input.readStringRequireUtf8();
+            case 24: {
+              numberOfGuests_ = input.readInt32();
               bitField0_ |= 0x00000004;
               break;
-            } // case 26
-            case 32: {
-              numberOfGuests_ = input.readInt32();
-              bitField0_ |= 0x00000008;
-              break;
-            } // case 32
+            } // case 24
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -591,132 +529,13 @@ private static final long serialVersionUID = 0L;
     }
     private int bitField0_;
 
-    private org.hotel.grpc.AgencyCredentials credentials_;
-    private com.google.protobuf.SingleFieldBuilderV3<
-        org.hotel.grpc.AgencyCredentials, org.hotel.grpc.AgencyCredentials.Builder, org.hotel.grpc.AgencyCredentialsOrBuilder> credentialsBuilder_;
-    /**
-     * <code>.hotel.AgencyCredentials credentials = 1;</code>
-     * @return Whether the credentials field is set.
-     */
-    public boolean hasCredentials() {
-      return ((bitField0_ & 0x00000001) != 0);
-    }
-    /**
-     * <code>.hotel.AgencyCredentials credentials = 1;</code>
-     * @return The credentials.
-     */
-    public org.hotel.grpc.AgencyCredentials getCredentials() {
-      if (credentialsBuilder_ == null) {
-        return credentials_ == null ? org.hotel.grpc.AgencyCredentials.getDefaultInstance() : credentials_;
-      } else {
-        return credentialsBuilder_.getMessage();
-      }
-    }
-    /**
-     * <code>.hotel.AgencyCredentials credentials = 1;</code>
-     */
-    public Builder setCredentials(org.hotel.grpc.AgencyCredentials value) {
-      if (credentialsBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        credentials_ = value;
-      } else {
-        credentialsBuilder_.setMessage(value);
-      }
-      bitField0_ |= 0x00000001;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>.hotel.AgencyCredentials credentials = 1;</code>
-     */
-    public Builder setCredentials(
-        org.hotel.grpc.AgencyCredentials.Builder builderForValue) {
-      if (credentialsBuilder_ == null) {
-        credentials_ = builderForValue.build();
-      } else {
-        credentialsBuilder_.setMessage(builderForValue.build());
-      }
-      bitField0_ |= 0x00000001;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>.hotel.AgencyCredentials credentials = 1;</code>
-     */
-    public Builder mergeCredentials(org.hotel.grpc.AgencyCredentials value) {
-      if (credentialsBuilder_ == null) {
-        if (((bitField0_ & 0x00000001) != 0) &&
-          credentials_ != null &&
-          credentials_ != org.hotel.grpc.AgencyCredentials.getDefaultInstance()) {
-          getCredentialsBuilder().mergeFrom(value);
-        } else {
-          credentials_ = value;
-        }
-      } else {
-        credentialsBuilder_.mergeFrom(value);
-      }
-      bitField0_ |= 0x00000001;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>.hotel.AgencyCredentials credentials = 1;</code>
-     */
-    public Builder clearCredentials() {
-      bitField0_ = (bitField0_ & ~0x00000001);
-      credentials_ = null;
-      if (credentialsBuilder_ != null) {
-        credentialsBuilder_.dispose();
-        credentialsBuilder_ = null;
-      }
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>.hotel.AgencyCredentials credentials = 1;</code>
-     */
-    public org.hotel.grpc.AgencyCredentials.Builder getCredentialsBuilder() {
-      bitField0_ |= 0x00000001;
-      onChanged();
-      return getCredentialsFieldBuilder().getBuilder();
-    }
-    /**
-     * <code>.hotel.AgencyCredentials credentials = 1;</code>
-     */
-    public org.hotel.grpc.AgencyCredentialsOrBuilder getCredentialsOrBuilder() {
-      if (credentialsBuilder_ != null) {
-        return credentialsBuilder_.getMessageOrBuilder();
-      } else {
-        return credentials_ == null ?
-            org.hotel.grpc.AgencyCredentials.getDefaultInstance() : credentials_;
-      }
-    }
-    /**
-     * <code>.hotel.AgencyCredentials credentials = 1;</code>
-     */
-    private com.google.protobuf.SingleFieldBuilderV3<
-        org.hotel.grpc.AgencyCredentials, org.hotel.grpc.AgencyCredentials.Builder, org.hotel.grpc.AgencyCredentialsOrBuilder> 
-        getCredentialsFieldBuilder() {
-      if (credentialsBuilder_ == null) {
-        credentialsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            org.hotel.grpc.AgencyCredentials, org.hotel.grpc.AgencyCredentials.Builder, org.hotel.grpc.AgencyCredentialsOrBuilder>(
-                getCredentials(),
-                getParentForChildren(),
-                isClean());
-        credentials_ = null;
-      }
-      return credentialsBuilder_;
-    }
-
     private java.lang.Object startDate_ = "";
     /**
      * <pre>
      * Format: YYYY-MM-DD
      * </pre>
      *
-     * <code>string start_date = 2;</code>
+     * <code>string start_date = 1;</code>
      * @return The startDate.
      */
     public java.lang.String getStartDate() {
@@ -736,7 +555,7 @@ private static final long serialVersionUID = 0L;
      * Format: YYYY-MM-DD
      * </pre>
      *
-     * <code>string start_date = 2;</code>
+     * <code>string start_date = 1;</code>
      * @return The bytes for startDate.
      */
     public com.google.protobuf.ByteString
@@ -757,7 +576,7 @@ private static final long serialVersionUID = 0L;
      * Format: YYYY-MM-DD
      * </pre>
      *
-     * <code>string start_date = 2;</code>
+     * <code>string start_date = 1;</code>
      * @param value The startDate to set.
      * @return This builder for chaining.
      */
@@ -765,7 +584,7 @@ private static final long serialVersionUID = 0L;
         java.lang.String value) {
       if (value == null) { throw new NullPointerException(); }
       startDate_ = value;
-      bitField0_ |= 0x00000002;
+      bitField0_ |= 0x00000001;
       onChanged();
       return this;
     }
@@ -774,12 +593,12 @@ private static final long serialVersionUID = 0L;
      * Format: YYYY-MM-DD
      * </pre>
      *
-     * <code>string start_date = 2;</code>
+     * <code>string start_date = 1;</code>
      * @return This builder for chaining.
      */
     public Builder clearStartDate() {
       startDate_ = getDefaultInstance().getStartDate();
-      bitField0_ = (bitField0_ & ~0x00000002);
+      bitField0_ = (bitField0_ & ~0x00000001);
       onChanged();
       return this;
     }
@@ -788,7 +607,7 @@ private static final long serialVersionUID = 0L;
      * Format: YYYY-MM-DD
      * </pre>
      *
-     * <code>string start_date = 2;</code>
+     * <code>string start_date = 1;</code>
      * @param value The bytes for startDate to set.
      * @return This builder for chaining.
      */
@@ -797,7 +616,7 @@ private static final long serialVersionUID = 0L;
       if (value == null) { throw new NullPointerException(); }
       checkByteStringIsUtf8(value);
       startDate_ = value;
-      bitField0_ |= 0x00000002;
+      bitField0_ |= 0x00000001;
       onChanged();
       return this;
     }
@@ -808,7 +627,7 @@ private static final long serialVersionUID = 0L;
      * Format: YYYY-MM-DD
      * </pre>
      *
-     * <code>string end_date = 3;</code>
+     * <code>string end_date = 2;</code>
      * @return The endDate.
      */
     public java.lang.String getEndDate() {
@@ -828,7 +647,7 @@ private static final long serialVersionUID = 0L;
      * Format: YYYY-MM-DD
      * </pre>
      *
-     * <code>string end_date = 3;</code>
+     * <code>string end_date = 2;</code>
      * @return The bytes for endDate.
      */
     public com.google.protobuf.ByteString
@@ -849,7 +668,7 @@ private static final long serialVersionUID = 0L;
      * Format: YYYY-MM-DD
      * </pre>
      *
-     * <code>string end_date = 3;</code>
+     * <code>string end_date = 2;</code>
      * @param value The endDate to set.
      * @return This builder for chaining.
      */
@@ -857,7 +676,7 @@ private static final long serialVersionUID = 0L;
         java.lang.String value) {
       if (value == null) { throw new NullPointerException(); }
       endDate_ = value;
-      bitField0_ |= 0x00000004;
+      bitField0_ |= 0x00000002;
       onChanged();
       return this;
     }
@@ -866,12 +685,12 @@ private static final long serialVersionUID = 0L;
      * Format: YYYY-MM-DD
      * </pre>
      *
-     * <code>string end_date = 3;</code>
+     * <code>string end_date = 2;</code>
      * @return This builder for chaining.
      */
     public Builder clearEndDate() {
       endDate_ = getDefaultInstance().getEndDate();
-      bitField0_ = (bitField0_ & ~0x00000004);
+      bitField0_ = (bitField0_ & ~0x00000002);
       onChanged();
       return this;
     }
@@ -880,7 +699,7 @@ private static final long serialVersionUID = 0L;
      * Format: YYYY-MM-DD
      * </pre>
      *
-     * <code>string end_date = 3;</code>
+     * <code>string end_date = 2;</code>
      * @param value The bytes for endDate to set.
      * @return This builder for chaining.
      */
@@ -889,14 +708,14 @@ private static final long serialVersionUID = 0L;
       if (value == null) { throw new NullPointerException(); }
       checkByteStringIsUtf8(value);
       endDate_ = value;
-      bitField0_ |= 0x00000004;
+      bitField0_ |= 0x00000002;
       onChanged();
       return this;
     }
 
     private int numberOfGuests_ ;
     /**
-     * <code>int32 number_of_guests = 4;</code>
+     * <code>int32 number_of_guests = 3;</code>
      * @return The numberOfGuests.
      */
     @java.lang.Override
@@ -904,23 +723,23 @@ private static final long serialVersionUID = 0L;
       return numberOfGuests_;
     }
     /**
-     * <code>int32 number_of_guests = 4;</code>
+     * <code>int32 number_of_guests = 3;</code>
      * @param value The numberOfGuests to set.
      * @return This builder for chaining.
      */
     public Builder setNumberOfGuests(int value) {
       
       numberOfGuests_ = value;
-      bitField0_ |= 0x00000008;
+      bitField0_ |= 0x00000004;
       onChanged();
       return this;
     }
     /**
-     * <code>int32 number_of_guests = 4;</code>
+     * <code>int32 number_of_guests = 3;</code>
      * @return This builder for chaining.
      */
     public Builder clearNumberOfGuests() {
-      bitField0_ = (bitField0_ & ~0x00000008);
+      bitField0_ = (bitField0_ & ~0x00000004);
       numberOfGuests_ = 0;
       onChanged();
       return this;
