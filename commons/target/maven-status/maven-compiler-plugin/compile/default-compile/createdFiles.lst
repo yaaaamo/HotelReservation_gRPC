@@ -10,16 +10,13 @@ org/hotel/grpc/CreditCardInfo$Builder.class
 org/hotel/grpc/HotelInfo.class
 org/hotel/grpc/RoomOffer$1.class
 org/hotel/grpc/AvailabilityRequest$Builder.class
-org/hotel/grpc/AgencyCredentialsOrBuilder.class
 org/hotel/grpc/AvailabilityRequest$1.class
 org/hotel/grpc/RoomOfferOrBuilder.class
 org/hotel/grpc/ReservationResponse$1.class
 org/hotel/grpc/EmptyOrBuilder.class
-org/hotel/grpc/AgencyCredentials$Builder.class
 org/hotel/grpc/Address$Builder.class
 org/hotel/grpc/HotelInfo$Builder.class
 org/hotel/grpc/CreditCardInfoOrBuilder.class
-org/hotel/grpc/AgencyCredentials$1.class
 org/hotel/grpc/Empty$1.class
 org/hotel/grpc/HotelServiceGrpc$MethodHandlers.class
 org/hotel/grpc/ReservationRequest$1.class
@@ -31,7 +28,6 @@ org/hotel/grpc/HotelServiceGrpc$HotelServiceFutureStub.class
 org/hotel/grpc/CreditCardInfo.class
 org/hotel/grpc/HotelInfoOrBuilder.class
 org/hotel/grpc/AvailabilityResponse$Builder.class
-org/hotel/grpc/AgencyCredentials.class
 org/hotel/grpc/ReservationRequestOrBuilder.class
 org/hotel/grpc/HotelServiceGrpc$AsyncService.class
 org/hotel/grpc/ReservationResponseOrBuilder.class

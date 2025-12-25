@@ -1,8 +1,6 @@
 /Users/yagmuraydemir/Documents/GitHub/HotelReservation_gRPC/commons/target/generated-sources/protobuf/grpc-java/org/hotel/grpc/HotelServiceGrpc.java
 /Users/yagmuraydemir/Documents/GitHub/HotelReservation_gRPC/commons/target/generated-sources/protobuf/java/org/hotel/grpc/Address.java
 /Users/yagmuraydemir/Documents/GitHub/HotelReservation_gRPC/commons/target/generated-sources/protobuf/java/org/hotel/grpc/AddressOrBuilder.java
-/Users/yagmuraydemir/Documents/GitHub/HotelReservation_gRPC/commons/target/generated-sources/protobuf/java/org/hotel/grpc/AgencyCredentials.java
-/Users/yagmuraydemir/Documents/GitHub/HotelReservation_gRPC/commons/target/generated-sources/protobuf/java/org/hotel/grpc/AgencyCredentialsOrBuilder.java
 /Users/yagmuraydemir/Documents/GitHub/HotelReservation_gRPC/commons/target/generated-sources/protobuf/java/org/hotel/grpc/AvailabilityRequest.java
 /Users/yagmuraydemir/Documents/GitHub/HotelReservation_gRPC/commons/target/generated-sources/protobuf/java/org/hotel/grpc/AvailabilityRequestOrBuilder.java
 /Users/yagmuraydemir/Documents/GitHub/HotelReservation_gRPC/commons/target/generated-sources/protobuf/java/org/hotel/grpc/AvailabilityResponse.java

@@ -28,11 +28,6 @@ message HotelInfo {
   int32 stars = 4;
 }
 
-// Agency credentials for authentication
-message AgencyCredentials {
-  string agency_id = 1;
-  string password = 2;
-}
 
 
 // service 1 : availability
@@ -102,9 +97,7 @@ message ReservationResponse {
   double total_price = 4;
 }
 
-
 // service definition
-
 service HotelService {
   // Service web 1: Consulter les disponibilités
   rpc CheckAvailability (AvailabilityRequest) returns (AvailabilityResponse);

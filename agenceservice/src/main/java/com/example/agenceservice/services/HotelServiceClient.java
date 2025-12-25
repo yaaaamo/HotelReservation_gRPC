@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Client gRPC pour consommer les services de plusieurs hôtels.
- * Les noms des méthodes correspondent aux noms définis dans le fichier .proto
+
  */
 @Service
 public class HotelServiceClient {
@@ -118,12 +117,7 @@ public class HotelServiceClient {
     return stub;
   }
 
-  private AgencyCredentials getCredentials() {
-    return AgencyCredentials.newBuilder()
-            .setAgencyId(agencyId)
-            .setPassword(agencyPassword)
-            .build();
-  }
+
 
   /**
    * GetHotelInfo - Récupère les informations d'un hôtel

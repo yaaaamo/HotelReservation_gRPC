@@ -147,7 +147,7 @@ public class HotelServiceImpl extends HotelServiceGrpc.HotelServiceImplBase {
                 .setQuantity(availableQuantity)
                 .setPricePerNight(basePricePerNight);
 
-        // Ajouter l'image si disponible
+        // Ajouter l'image
         if (chambre.getImageUrl() != null && !chambre.getImageUrl().isEmpty()) {
           offerBuilder.setImage(ByteString.copyFromUtf8(chambre.getImageUrl()));
         }

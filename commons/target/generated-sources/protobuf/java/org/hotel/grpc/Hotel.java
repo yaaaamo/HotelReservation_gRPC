@@ -30,11 +30,6 @@ public final class Hotel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_hotel_HotelInfo_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_hotel_AgencyCredentials_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_hotel_AgencyCredentials_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_hotel_AvailabilityRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -84,35 +79,34 @@ public final class Hotel {
       "\t\022\020\n\010latitude\030\006 \001(\001\022\021\n\tlongitude\030\007 \001(\001\"[" +
       "\n\tHotelInfo\022\020\n\010hotel_id\030\001 \001(\003\022\014\n\004name\030\002 " +
       "\001(\t\022\037\n\007address\030\003 \001(\0132\016.hotel.Address\022\r\n\005" +
-      "stars\030\004 \001(\005\"8\n\021AgencyCredentials\022\021\n\tagen" +
-      "cy_id\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"U\n\023Availab" +
-      "ilityRequest\022\022\n\nstart_date\030\001 \001(\t\022\020\n\010end_" +
-      "date\030\002 \001(\t\022\030\n\020number_of_guests\030\003 \001(\005\"\254\001\n" +
-      "\tRoomOffer\022\020\n\010offer_id\030\001 \001(\003\022\021\n\troom_typ" +
-      "e\030\002 \001(\t\022\026\n\016number_of_beds\030\003 \001(\005\022\031\n\021avail" +
-      "ability_date\030\004 \001(\t\022\r\n\005price\030\005 \001(\001\022\r\n\005ima" +
-      "ge\030\006 \001(\014\022\020\n\010quantity\030\007 \001(\005\022\027\n\017price_per_" +
-      "night\030\010 \001(\001\"\200\001\n\024AvailabilityResponse\022$\n\n" +
-      "hotel_info\030\001 \001(\0132\020.hotel.HotelInfo\022 \n\006of" +
-      "fers\030\002 \003(\0132\020.hotel.RoomOffer\022\017\n\007message\030" +
-      "\003 \001(\t\022\017\n\007success\030\004 \001(\010\"P\n\tGuestInfo\022\022\n\nf" +
-      "irst_name\030\001 \001(\t\022\021\n\tlast_name\030\002 \001(\t\022\r\n\005em" +
-      "ail\030\003 \001(\t\022\r\n\005phone\030\004 \001(\t\"a\n\016CreditCardIn" +
-      "fo\022\023\n\013card_number\030\001 \001(\t\022\030\n\020card_holder_n" +
-      "ame\030\002 \001(\t\022\023\n\013expiry_date\030\003 \001(\t\022\013\n\003cvv\030\004 " +
-      "\001(\t\"\232\001\n\022ReservationRequest\022\020\n\010offer_id\030\001" +
-      " \001(\003\022$\n\nmain_guest\030\002 \001(\0132\020.hotel.GuestIn" +
-      "fo\022&\n\007payment\030\003 \001(\0132\025.hotel.CreditCardIn" +
-      "fo\022\022\n\nstart_date\030\004 \001(\t\022\020\n\010end_date\030\005 \001(\t" +
-      "\"m\n\023ReservationResponse\022\021\n\tconfirmed\030\001 \001" +
-      "(\010\022\035\n\025reservation_reference\030\002 \001(\t\022\017\n\007mes" +
-      "sage\030\003 \001(\t\022\023\n\013total_price\030\004 \001(\0012\326\001\n\014Hote" +
-      "lService\022L\n\021CheckAvailability\022\032.hotel.Av" +
-      "ailabilityRequest\032\033.hotel.AvailabilityRe" +
-      "sponse\022H\n\017MakeReservation\022\031.hotel.Reserv" +
-      "ationRequest\032\032.hotel.ReservationResponse" +
-      "\022.\n\014GetHotelInfo\022\014.hotel.Empty\032\020.hotel.H" +
-      "otelInfoB\022\n\016org.hotel.grpcP\001b\006proto3"
+      "stars\030\004 \001(\005\"U\n\023AvailabilityRequest\022\022\n\nst" +
+      "art_date\030\001 \001(\t\022\020\n\010end_date\030\002 \001(\t\022\030\n\020numb" +
+      "er_of_guests\030\003 \001(\005\"\254\001\n\tRoomOffer\022\020\n\010offe" +
+      "r_id\030\001 \001(\003\022\021\n\troom_type\030\002 \001(\t\022\026\n\016number_" +
+      "of_beds\030\003 \001(\005\022\031\n\021availability_date\030\004 \001(\t" +
+      "\022\r\n\005price\030\005 \001(\001\022\r\n\005image\030\006 \001(\014\022\020\n\010quanti" +
+      "ty\030\007 \001(\005\022\027\n\017price_per_night\030\010 \001(\001\"\200\001\n\024Av" +
+      "ailabilityResponse\022$\n\nhotel_info\030\001 \001(\0132\020" +
+      ".hotel.HotelInfo\022 \n\006offers\030\002 \003(\0132\020.hotel" +
+      ".RoomOffer\022\017\n\007message\030\003 \001(\t\022\017\n\007success\030\004" +
+      " \001(\010\"P\n\tGuestInfo\022\022\n\nfirst_name\030\001 \001(\t\022\021\n" +
+      "\tlast_name\030\002 \001(\t\022\r\n\005email\030\003 \001(\t\022\r\n\005phone" +
+      "\030\004 \001(\t\"a\n\016CreditCardInfo\022\023\n\013card_number\030" +
+      "\001 \001(\t\022\030\n\020card_holder_name\030\002 \001(\t\022\023\n\013expir" +
+      "y_date\030\003 \001(\t\022\013\n\003cvv\030\004 \001(\t\"\232\001\n\022Reservatio" +
+      "nRequest\022\020\n\010offer_id\030\001 \001(\003\022$\n\nmain_guest" +
+      "\030\002 \001(\0132\020.hotel.GuestInfo\022&\n\007payment\030\003 \001(" +
+      "\0132\025.hotel.CreditCardInfo\022\022\n\nstart_date\030\004" +
+      " \001(\t\022\020\n\010end_date\030\005 \001(\t\"m\n\023ReservationRes" +
+      "ponse\022\021\n\tconfirmed\030\001 \001(\010\022\035\n\025reservation_" +
+      "reference\030\002 \001(\t\022\017\n\007message\030\003 \001(\t\022\023\n\013tota" +
+      "l_price\030\004 \001(\0012\326\001\n\014HotelService\022L\n\021CheckA" +
+      "vailability\022\032.hotel.AvailabilityRequest\032" +
+      "\033.hotel.AvailabilityResponse\022H\n\017MakeRese" +
+      "rvation\022\031.hotel.ReservationRequest\032\032.hot" +
+      "el.ReservationResponse\022.\n\014GetHotelInfo\022\014" +
+      ".hotel.Empty\032\020.hotel.HotelInfoB\022\n\016org.ho" +
+      "tel.grpcP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -136,50 +130,44 @@ public final class Hotel {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hotel_HotelInfo_descriptor,
         new java.lang.String[] { "HotelId", "Name", "Address", "Stars", });
-    internal_static_hotel_AgencyCredentials_descriptor =
-      getDescriptor().getMessageTypes().get(3);
-    internal_static_hotel_AgencyCredentials_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_hotel_AgencyCredentials_descriptor,
-        new java.lang.String[] { "AgencyId", "Password", });
     internal_static_hotel_AvailabilityRequest_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_hotel_AvailabilityRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hotel_AvailabilityRequest_descriptor,
         new java.lang.String[] { "StartDate", "EndDate", "NumberOfGuests", });
     internal_static_hotel_RoomOffer_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_hotel_RoomOffer_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hotel_RoomOffer_descriptor,
         new java.lang.String[] { "OfferId", "RoomType", "NumberOfBeds", "AvailabilityDate", "Price", "Image", "Quantity", "PricePerNight", });
     internal_static_hotel_AvailabilityResponse_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_hotel_AvailabilityResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hotel_AvailabilityResponse_descriptor,
         new java.lang.String[] { "HotelInfo", "Offers", "Message", "Success", });
     internal_static_hotel_GuestInfo_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_hotel_GuestInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hotel_GuestInfo_descriptor,
         new java.lang.String[] { "FirstName", "LastName", "Email", "Phone", });
     internal_static_hotel_CreditCardInfo_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_hotel_CreditCardInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hotel_CreditCardInfo_descriptor,
         new java.lang.String[] { "CardNumber", "CardHolderName", "ExpiryDate", "Cvv", });
     internal_static_hotel_ReservationRequest_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_hotel_ReservationRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hotel_ReservationRequest_descriptor,
         new java.lang.String[] { "OfferId", "MainGuest", "Payment", "StartDate", "EndDate", });
     internal_static_hotel_ReservationResponse_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_hotel_ReservationResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hotel_ReservationResponse_descriptor,

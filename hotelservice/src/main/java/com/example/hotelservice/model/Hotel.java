@@ -17,6 +17,9 @@ public class Hotel {
   @Column(nullable = false)
   private int nombreEtoiles;
 
+  @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<Chambre> chambres = new ArrayList<>();
+
   // Adresse
   private String pays;
   private String ville;
@@ -26,8 +29,7 @@ public class Hotel {
   private Double latitude;
   private Double longitude;
 
-  @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private List<Chambre> chambres = new ArrayList<>();
+
 
   public Hotel() {}
 
