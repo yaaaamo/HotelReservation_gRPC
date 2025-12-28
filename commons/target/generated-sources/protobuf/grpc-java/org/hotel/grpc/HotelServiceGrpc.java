@@ -3,6 +3,9 @@ package org.hotel.grpc;
 import static io.grpc.MethodDescriptor.generateFullMethodName;
 
 /**
+ * <pre>
+ * service definition
+ * </pre>
  */
 @javax.annotation.Generated(
     value = "by gRPC proto compiler (version 1.62.2)",
@@ -153,6 +156,9 @@ public final class HotelServiceGrpc {
   }
 
   /**
+   * <pre>
+   * service definition
+   * </pre>
    */
   public interface AsyncService {
 
@@ -189,6 +195,9 @@ public final class HotelServiceGrpc {
 
   /**
    * Base class for the server implementation of the service HotelService.
+   * <pre>
+   * service definition
+   * </pre>
    */
   public static abstract class HotelServiceImplBase
       implements io.grpc.BindableService, AsyncService {
@@ -200,6 +209,9 @@ public final class HotelServiceGrpc {
 
   /**
    * A stub to allow clients to do asynchronous rpc calls to service HotelService.
+   * <pre>
+   * service definition
+   * </pre>
    */
   public static final class HotelServiceStub
       extends io.grpc.stub.AbstractAsyncStub<HotelServiceStub> {
@@ -250,6 +262,9 @@ public final class HotelServiceGrpc {
 
   /**
    * A stub to allow clients to do synchronous rpc calls to service HotelService.
+   * <pre>
+   * service definition
+   * </pre>
    */
   public static final class HotelServiceBlockingStub
       extends io.grpc.stub.AbstractBlockingStub<HotelServiceBlockingStub> {
@@ -297,6 +312,9 @@ public final class HotelServiceGrpc {
 
   /**
    * A stub to allow clients to do ListenableFuture-style rpc calls to service HotelService.
+   * <pre>
+   * service definition
+   * </pre>
    */
   public static final class HotelServiceFutureStub
       extends io.grpc.stub.AbstractFutureStub<HotelServiceFutureStub> {

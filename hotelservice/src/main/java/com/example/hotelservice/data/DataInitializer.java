@@ -103,16 +103,16 @@ public class DataInitializer {
 
         // Créer les fenêtres de disponibilité
         winRepo.save(new AvailabilityWindow(
-                LocalDate.of(2025, 12, 10),
-                LocalDate.of(2025, 12, 20),
+                LocalDate.of(2027, 12, 10),
+                LocalDate.of(2027, 12, 20),
                 1, c101));
         winRepo.save(new AvailabilityWindow(
-                LocalDate.of(2025, 12, 10),
-                LocalDate.of(2025, 12, 20),
+                LocalDate.of(2027, 12, 10),
+                LocalDate.of(2027, 12, 20),
                 1, c102));
         winRepo.save(new AvailabilityWindow(
-                LocalDate.of(2025, 12, 10),
-                LocalDate.of(2025, 12, 20),
+                LocalDate.of(2027, 12, 10),
+                LocalDate.of(2027, 12, 20),
                 2, c201));
         winRepo.save(new AvailabilityWindow(
                 LocalDate.of(2025, 12, 10),

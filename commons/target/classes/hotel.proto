@@ -97,9 +97,7 @@ message ReservationResponse {
   double total_price = 4;
 }
 
-
 // service definition
-
 service HotelService {
   // Service web 1: Consulter les disponibilités
   rpc CheckAvailability (AvailabilityRequest) returns (AvailabilityResponse);
