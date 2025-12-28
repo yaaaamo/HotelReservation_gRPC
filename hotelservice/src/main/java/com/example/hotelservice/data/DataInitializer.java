@@ -115,16 +115,16 @@ public class DataInitializer {
                 LocalDate.of(2027, 12, 20),
                 2, c201));
         winRepo.save(new AvailabilityWindow(
-                LocalDate.of(2025, 12, 10),
-                LocalDate.of(2025, 12, 20),
+                LocalDate.of(2027, 12, 10),
+                LocalDate.of(2027, 12, 20),
                 2, c202));
         winRepo.save(new AvailabilityWindow(
-                LocalDate.of(2025, 12, 20),
-                LocalDate.of(2025, 12, 30),
+                LocalDate.of(2027, 12, 20),
+                LocalDate.of(2027, 12, 30),
                 3, c301));
         winRepo.save(new AvailabilityWindow(
-                LocalDate.of(2025, 12, 20),
-                LocalDate.of(2025, 12, 30),
+                LocalDate.of(2027, 12, 20),
+                LocalDate.of(2027, 12, 30),
                 4, c401));
 
         logger.info("Hôtel créé: {} ({} étoiles) à {}", hotelName, hotelStars, hotelVille);

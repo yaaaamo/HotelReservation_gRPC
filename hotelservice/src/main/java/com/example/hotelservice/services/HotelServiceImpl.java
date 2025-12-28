@@ -12,6 +12,8 @@ import com.example.hotelservice.auth.ServerAuthInterceptor;
 import org.hotel.grpc.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -30,6 +32,12 @@ public class HotelServiceImpl extends HotelServiceGrpc.HotelServiceImplBase {
   private final AvailabilityWindowRepository availabilityWindowRepository;
   private final ReservationRepository reservationRepository;
   private final ChambreRepository chambreRepository;
+
+  @Value("${hotel.simulate.delay:false}")
+  private boolean simulateDelay;
+
+  @Value("${hotel.simulate.delay.ms:0}")
+  private long delayMs;
 
   public HotelServiceImpl(HotelRepository hotelRepository,
                           AgenceRepository agenceRepository,
@@ -53,6 +61,14 @@ public class HotelServiceImpl extends HotelServiceGrpc.HotelServiceImplBase {
     String agencyId = ServerAuthInterceptor.AGENCY_ID_CTX.get();
     logger.info("CheckAvailability request received from agency (metadata): {}", agencyId);
 
+    if (simulateDelay && delayMs > 0) {
+      try {
+        logger.warn("SIMULATING SLOW RESPONSE: {}ms delay", delayMs);
+        Thread.sleep(delayMs);
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+      }
+    }
 
     AvailabilityResponse.Builder responseBuilder = AvailabilityResponse.newBuilder();
 
